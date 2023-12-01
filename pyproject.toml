@@ -1,0 +1,10 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[tool.setuptools]
+packages = ["aoc"]
+
+[project]
+name = "aoc"
+version = "0.0.1"
