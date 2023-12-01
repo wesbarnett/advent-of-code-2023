@@ -1,7 +1,0 @@
-README.md
-pyproject.toml
-aoc/__init__.py
-aoc/aoc.egg-info/PKG-INFO
-aoc/aoc.egg-info/SOURCES.txt
-aoc/aoc.egg-info/dependency_links.txt
-aoc/aoc.egg-info/top_level.txt
