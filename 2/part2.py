@@ -5,9 +5,10 @@ from aoc import get_input, submit
 
 def f(sets):
     """
-    Get fewest number of cubes of each color that could have been in the bag to make game possible and return the power
-    of the bag counts. The fewest number of cubes of each color that could have been in the bag will be the max of each
-    color seen in the game.
+    Get fewest number of cubes of each color that could have been in the bag to 
+    make game possible and return the product  of the bag counts. The fewest 
+    number of cubes of each color that could have been in the bag will be the 
+    max of each color seen in the game.
     """
 
     bag = Counter()
