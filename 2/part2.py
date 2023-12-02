@@ -1,5 +1,5 @@
 from collections import Counter
-from functools import reduce
+from math import prod
 
 from aoc import get_input, submit
 
@@ -16,12 +16,11 @@ def f(sets):
         v, k = x.lstrip(" ").split(" ")
         bag[k] = max(int(v), bag[k])
 
-    return reduce((lambda a, b: a*b), list(bag.values()))
+    return prod(bag.values())
 
 if __name__ == "__main__":
     year, day, level = 2023, 2, 2
     aoc_input = get_input(year, day)
-
     lines = aoc_input.split("\n")
 
     ans = sum(f(line.split(":")[-1]) for line in lines)
