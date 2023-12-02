@@ -13,7 +13,7 @@ def f(sets):
     bag = Counter()
 
     for x in sets.replace(";", ",").split(","):
-        v, k = x.lstrip(" ").split(" ")
+        k, v = x.lstrip(" ").split(" ")[::-1]
         bag[k] = max(int(v), bag[k])
 
     return prod(bag.values())
@@ -21,7 +21,7 @@ def f(sets):
 if __name__ == "__main__":
     year, day, level = 2023, 2, 2
     aoc_input = get_input(year, day)
-    lines = aoc_input.split("\n")
+    lines = aoc_input.splitlines()
 
-    ans = sum(f(line.split(":")[-1]) for line in lines)
+    ans = sum(f(line.partition(":")[-1]) for line in lines)
     submit(ans, year, day, level)
