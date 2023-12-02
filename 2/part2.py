@@ -23,6 +23,5 @@ if __name__ == "__main__":
     year, day, level = 2023, 2, 2
     aoc_input = get_input(year, day)
     lines = aoc_input.splitlines()
-
     ans = sum(f(line.partition(":")[-1]) for line in lines)
     submit(ans, year, day, level)

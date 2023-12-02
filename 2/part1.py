@@ -5,7 +5,7 @@ def check_game_is_possible(sets):
 
     for s in sets.split(";"):
         for x in s.split(","):
-            v, k = x.lstrip(" ").split(" ")
+            k, v = x.lstrip(" ").split(" ")[::-1]
             if int(v) > bag[k]:
                 return False
 
@@ -14,14 +14,6 @@ def check_game_is_possible(sets):
 if __name__ == "__main__":
     year, day, level = 2023, 2, 1
     aoc_input = get_input(year, day)
-
-    lines = aoc_input.split("\n")
-
-    ans = 0
-    for line in lines:
-        game, sets = line.split(":")
-        game = int(game.split(" ")[-1].rstrip(":"))
-        if check_game_is_possible(sets):
-            ans += game
-
+    all_sets = [line.partition(":")[-1] for line in aoc_input.splitlines()]
+    ans = sum(i for i, sets in enumerate(all_sets, start=1) if check_game_is_possible(sets))
     submit(ans, year, day, level)
