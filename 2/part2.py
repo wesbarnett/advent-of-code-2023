@@ -12,8 +12,7 @@ def f(sets):
 
     bag = Counter()
 
-    sets = sets.replace(";", ",")
-    for x in sets.split(","):
+    for x in sets.replace(";", ",").split(","):
         v, k = x.lstrip(" ").split(" ")
         bag[k] = max(int(v), bag[k])
 
