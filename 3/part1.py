@@ -10,16 +10,15 @@ if __name__ == "__main__":
     ans = 0
     schematic = aoc_input.splitlines()
 
-    symbols = "".join([x for x in set(aoc_input) if not x.isdigit() and x != "\n"])
-
     for i, line in enumerate(schematic):
         j = 0
-        for s in re.split(fr"([{symbols}])", line):
+        for s in re.split(fr"([^0-9])", line):
             if s.isdigit():
-                for k, (x, y) in product(range(len(s)), [(i-1, j-1), (i-1, j), (i-1, j+1), (i, j-1), (i, j+1), (i+1, j-1), (i+1, j), (i+1, j+1)]):
-                    if x >= 0 and y+k >= 0:
+                for k, m, n in product(range(len(s)), (-1, 0, 1), (-1, 0, 1)):
+                    x, y = i + m, j + k + n
+                    if x >= 0 and y >= 0:
                         try:
-                            if (not schematic[x][y+k].isdigit() and schematic[x][y+k] != "."):
+                            if (not schematic[x][y].isdigit() and schematic[x][y] != "."):
                                 ans += int(s)
                                 break
                         except IndexError:

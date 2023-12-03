@@ -10,18 +10,18 @@ if __name__ == "__main__":
 
     schematic = aoc_input.splitlines()
 
-    symbols = "".join([x for x in sorted(list(set(aoc_input))) if not x.isdigit() and x != "\n"])
     star_symbols = defaultdict(list)
 
     for i, line in enumerate(schematic):
         j = 0
-        for s in re.split(fr"([{symbols}])", line):
+        for s in re.split(fr"([^0-9])", line):
             if s.isdigit():
-                for k, (x, y) in product(range(len(s)), [(i-1, j-1), (i-1, j), (i-1, j+1), (i, j-1), (i, j+1), (i+1, j-1), (i+1, j), (i+1, j+1)]):
-                    if x >= 0 and y+k >= 0:
+                for k, m, n in product(range(len(s)), (-1, 0, 1), (-1, 0, 1)):
+                    x, y = i + m, j + k + n
+                    if x >= 0 and y >= 0:
                         try:
-                            if schematic[x][y+k] == "*":
-                                star_symbols[(x, y+k)].append(int(s))
+                            if schematic[x][y] == "*":
+                                star_symbols[(x, y)].append(int(s))
                                 break
                         except IndexError:
                             pass
