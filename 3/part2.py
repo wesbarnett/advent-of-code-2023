@@ -16,8 +16,12 @@ if __name__ == "__main__":
         j = 0
         for s in re.split(r"([^0-9])", line):
             if s.isdigit():
+                checked = set()
                 for k, m, n in product(range(len(s)), (-1, 0, 1), (-1, 0, 1)):
                     x, y = i + m, j + k + n
+                    if (m == n == 0) or (x, y) in checked:
+                        continue
+                    checked.add((x, y))
                     try:
                         if x >= 0 and y >= 0 and schematic[x][y] == "*":
                             star_symbols[(x, y)].append(int(s))
