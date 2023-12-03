@@ -18,13 +18,12 @@ if __name__ == "__main__":
             if s.isdigit():
                 for k, m, n in product(range(len(s)), (-1, 0, 1), (-1, 0, 1)):
                     x, y = i + m, j + k + n
-                    if x >= 0 and y >= 0:
-                        try:
-                            if schematic[x][y] == "*":
-                                star_symbols[(x, y)].append(int(s))
-                                break
-                        except IndexError:
-                            pass
+                    try:
+                        if x >= 0 and y >= 0 and schematic[x][y] == "*":
+                            star_symbols[(x, y)].append(int(s))
+                            break
+                    except IndexError:
+                        pass
             j += len(s)
 
     ans = sum(v[0]*v[1] for v in star_symbols.values() if len(v) == 2)
