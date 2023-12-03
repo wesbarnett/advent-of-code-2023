@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     for i, line in enumerate(schematic):
         j = 0
-        for s in re.split(fr"([^0-9])", line):
+        for s in re.split(r"([^0-9])", line):
             if s.isdigit():
                 for k, m, n in product(range(len(s)), (-1, 0, 1), (-1, 0, 1)):
                     x, y = i + m, j + k + n
