@@ -1,4 +1,4 @@
-# advent-of-code-2023
+# ❄️ advent-of-code-2023 ❄️
 
 Personal solutions to [Advent of Code 2023](https://adventofcode.com/2023).
 
