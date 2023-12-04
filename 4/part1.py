@@ -16,5 +16,4 @@ if __name__ == "__main__":
             score = 2**(matched-1)
             ans += score
         
-    print(ans)
     submit(ans, year, day, level)
