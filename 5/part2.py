@@ -1,13 +1,12 @@
 from collections import deque
+from itertools import batched
 
 from aoc import get_input, submit
 
 
 def get_overlaps(x, y):
 
-    # Not overlapping. Note that x[1] is the upper bound
-    # so it's being equal to lower bound of y is still
-    # not an overlap.
+    # Not overlapping. Note that x[1] is the upper bound so its being equal to lower bound of y is still not an overlap.
     if y[0] >= x[1] or x[0] > y[1]:
         return tuple(), [x]
 
@@ -31,12 +30,7 @@ if __name__ == "__main__":
     sections = aoc_input.split("\n\n")
     seeds_line = [int(x) for x in sections[0].partition(": ")[-1].split()]
 
-    i = 0
-    seeds = set()
-    while i < len(seeds_line):
-        start, range_ = seeds_line[i], seeds_line[i+1]
-        seeds.add((start, start+range_))
-        i += 2
+    seeds = {(start, start+range_) for start, range_ in batched(seeds_line, 2)}
 
     lowest = []
 
@@ -50,13 +44,10 @@ if __name__ == "__main__":
 
             mapper = {}
 
-            # Each section has multiple range "rules" that each range
-            # needs to go through. Sometimes part of a range will map to a
-            # destination range but the other part won't. That "remainder" range
-            # will then need to go through each of the rules to see if it also
-            # maps to a destination range. If it makes it through all rules
-            # and never has any piece of it mapping to a destination, it then
-            # is mapped 1-1.
+            # Each section has multiple range "rules" that each range needs to go through. Sometimes part of a range 
+            # will map to a destination range but the other part won't. That "remainder" range will then need to go
+            # through each of the rules to see if it also maps to a destination range. If it makes it through all rules 
+            # and never has any piece of it mapping to a destination, it then is mapped 1-1.
             while inputs:
 
                 inp_range = inputs.popleft()
@@ -68,26 +59,24 @@ if __name__ == "__main__":
                     dest_start, src_start, range_len = [int(i) for i in x.split()]
                     src_range = (src_start, src_start + range_len)
                     
-                    # Remaining range that did not overlap will need to be checked
-                    # with other range rules. inters is the range that overlapped
-                    # with src_rang
+                    # Remaining range that did not overlap will need to be checked with other range rules. inters is
+                    # the range that overlapped with src_rang
                     inters, remain = get_overlaps(inp_range, src_range)
 
-                    # If there was an overlapping range, that now needs to be mapped
-                    # to the destination range
+                    # If there was an overlapping range, that now needs to be mapped to the destination range
                     if inters:
                         shift = dest_start - src_start
                         mapper[inters] = (inters[0] + shift, inters[1] + shift)
                         overlapped = True
 
-                    # Any remaining ranges that did not overlap will need to be brought
-                    # through all of this section's range rules on their own
+                    # Any remaining ranges that did not overlap will need to be brought through all of this section's
+                    # range rules on their own
                     for rem in remain:
                         if rem not in inputs and rem != inp_range:
                             inputs.append(rem)
 
-                # If this input range never overlapped any of the source ranges, that
-                # means it should be mapped to a destination range 1-1
+                # If this input range never overlapped any of the source ranges, that means it should be mapped to a
+                # destination range 1-1
                 if not overlapped:
                     mapper[inp_range] = inp_range
 
