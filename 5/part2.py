@@ -84,7 +84,7 @@ if __name__ == "__main__":
             inputs = deque(list(dest_ranges))
 
         # Keep track of the lowest value for this seed range
-        lowest.append(min([min(x) for x in inputs if x]))
+        lowest.append(min(x for x, _ in inputs))
 
     ans = min(lowest)
     submit(ans, year, day, level)
