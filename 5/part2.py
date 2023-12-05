@@ -87,5 +87,4 @@ if __name__ == "__main__":
         lowest.append(min([min(x) for x in inputs if x]))
 
     ans = min(lowest)
-    print(ans)
-    #submit(ans, year, day, level)
+    submit(ans, year, day, level)
