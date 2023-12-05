@@ -45,21 +45,27 @@ if __name__ == "__main__":
 
         inputs = deque([seed])
 
-        # Move the seed through the process
+        # Move the seed range through the process, section by section
         for section in sections[1:]:
 
             mapper = {}
 
+            # Each section has multiple range "rules" that each range
+            # needs to go through. Sometimes part of a range will map to a
+            # destination range but the other part won't. That "remainder" range
+            # will then need to go through each of the rules to see if it also
+            # maps to a destination range. If it makes it through all rules
+            # and never has any piece of it mapping to a destination, it then
+            # is mapped 1-1.
             while inputs:
-                inp_range = inputs.popleft()
 
+                inp_range = inputs.popleft()
                 overlapped = False
 
                 # Move this range through all of the range "rules"
                 for x in section.partition(":\n")[-1].splitlines():
 
                     dest_start, src_start, range_len = [int(i) for i in x.split()]
-
                     src_range = (src_start, src_start + range_len)
                     
                     # Remaining range that did not overlap will need to be checked
@@ -85,6 +91,7 @@ if __name__ == "__main__":
                 if not overlapped:
                     mapper[inp_range] = inp_range
 
+            # Populate the next sections inputs
             inputs = deque(list(mapper.values()))
 
         # Keep track of the lowest value for this seed range
