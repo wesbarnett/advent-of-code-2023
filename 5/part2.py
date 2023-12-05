@@ -42,7 +42,7 @@ if __name__ == "__main__":
         # Move the seed range through the process, section by section
         for section in sections[1:]:
 
-            mapper = {}
+            dest_ranges = set()
 
             # Each section has multiple range "rules" that each range needs to go through. Sometimes part of a range 
             # will map to a destination range but the other part won't. That "remainder" range will then need to go
@@ -66,7 +66,7 @@ if __name__ == "__main__":
                     # If there was an overlapping range, that now needs to be mapped to the destination range
                     if inters:
                         shift = dest_start - src_start
-                        mapper[inters] = (inters[0] + shift, inters[1] + shift)
+                        dest_ranges.add((inters[0] + shift, inters[1] + shift))
                         overlapped = True
 
                     # Any remaining ranges that did not overlap will need to be brought through all of this section's
@@ -78,13 +78,14 @@ if __name__ == "__main__":
                 # If this input range never overlapped any of the source ranges, that means it should be mapped to a
                 # destination range 1-1
                 if not overlapped:
-                    mapper[inp_range] = inp_range
+                    dest_ranges.add(inp_range)
 
             # Populate the next sections inputs
-            inputs = deque(list(mapper.values()))
+            inputs = deque(list(dest_ranges))
 
         # Keep track of the lowest value for this seed range
         lowest.append(min([min(x) for x in inputs if x]))
 
     ans = min(lowest)
-    submit(ans, year, day, level)
+    print(ans)
+    #submit(ans, year, day, level)
