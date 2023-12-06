@@ -1,7 +1,7 @@
 from collections import Counter
 from math import prod
 
-from aoc import get_input, submit
+from aoc_tool import get_input, submit
 
 def f(sets):
     """

@@ -1,4 +1,4 @@
-from aoc import get_input, submit
+from aoc_tool import get_input, submit
 
 def get_num(line, reverse=False):
     range_ = range(len(line)-1, -1, -1) if reverse else range(len(line))

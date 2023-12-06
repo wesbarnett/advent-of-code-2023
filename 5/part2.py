@@ -1,7 +1,7 @@
 from collections import deque
 from itertools import batched
 
-from aoc import get_input, submit
+from aoc_tool import get_input, submit
 
 
 def get_overlaps(x, y):

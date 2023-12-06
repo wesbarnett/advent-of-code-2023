@@ -2,7 +2,7 @@ from collections import defaultdict
 from itertools import product
 import re
 
-from aoc import get_input, submit
+from aoc_tool import get_input, submit
 
 if __name__ == "__main__":
     year, day, level = 2023, 3, 2

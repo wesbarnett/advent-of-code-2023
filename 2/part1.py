@@ -1,4 +1,4 @@
-from aoc import get_input, submit
+from aoc_tool import get_input, submit
 
 def check_game_is_possible(sets):
     bag = {"blue": 14, "green": 13, "red": 12}
