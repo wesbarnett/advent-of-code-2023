@@ -22,23 +22,8 @@ def get_type(hand):
 
 def compare(x, y):
     x, y = x[0], y[0]
-    order = {
-        "A": 12,
-        "K": 11,
-        "Q": 10,
-        "J": 9,
-        "T": 8,
-        "9": 7,
-        "8": 6,
-        "7": 5,
-        "6": 4,
-        "5": 3,
-        "4": 2, 
-        "3": 1,
-        "2": 0
-    }
-    xt = get_type(x)
-    yt = get_type(y)
+    order = dict((i[1], i[0]) for i in enumerate("23456789TJQKA"))
+    xt, yt = get_type(x), get_type(y)
 
     if xt > yt:
         return -1
@@ -69,4 +54,4 @@ if __name__ == "__main__":
     hands = sorted(hands, key=cmp_to_key(compare))
     ans = sum(i*x[1] for i, x in enumerate(reversed(hands), start=1))
     print(ans)
-    submit(ans, year, day, level)
+    #submit(ans, year, day, level)
