@@ -110,7 +110,7 @@ if __name__ == "__main__":
     ans = len(loop) // 2
 
     print(f"Part 1: {ans}")
-    #submit(ans, year, day, 1)
+    submit(ans, year, day, 1)
 
     # Shoelace formula
     A = abs(sum(x1*y2 - y1*x2 for (x1, y1), (x2, y2)  in pairwise(loop)) / 2)
@@ -119,4 +119,4 @@ if __name__ == "__main__":
     ans = int(A - len(loop)//2 + 1)
 
     print(f"Part 2: {ans}")
-    #submit(ans, year, day, 2)
+    submit(ans, year, day, 2)
