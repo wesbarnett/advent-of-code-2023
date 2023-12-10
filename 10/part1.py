@@ -1,4 +1,6 @@
 from enum import auto, Enum
+from itertools import pairwise
+
 from aoc_tool import get_input, submit
 
 class CardinalDirection(Enum):
@@ -6,7 +8,6 @@ class CardinalDirection(Enum):
     S = auto()
     E = auto()
     W = auto()
-
 
 def find_start(tiles):
     for y, row in enumerate(tiles):
@@ -77,7 +78,7 @@ def get_next_enter_dir(pipe_type, entered):
         raise ValueError(pipe_type)
 
 if __name__ == "__main__":
-    year, day, level = 2023, 10, 1
+    year, day = 2023, 10
     aoc_input = get_input(year, day)
 
     tiles  = aoc_input.splitlines()
@@ -93,17 +94,29 @@ if __name__ == "__main__":
     ]
     for pipe_start, enter_dir_start in starting_configs:
         x, y, pipe, enter_dir = start_x, start_y, pipe_start, enter_dir_start
-        count = 0
+        loop = [(x, y)]
         try:
             while pipe != "S":
                 enter_dir = get_next_enter_dir(pipe, enter_dir)
                 y, x = move(enter_dir, y, x)
+                loop.append((x, y))
                 pipe = tiles[y][x]
-                count += 1 
             enter_dir = get_next_enter_dir(pipe_start, enter_dir)
         except ValueError:
             continue
         else:
             break
-    ans = count // 2
-    submit(ans, year, day, level)
+
+    ans = len(loop) // 2
+
+    print(f"Part 1: {ans}")
+    #submit(ans, year, day, 1)
+
+    # Shoelace formula
+    A = abs(sum(x1*y2 - y1*x2 for (x1, y1), (x2, y2)  in pairwise(loop)) / 2)
+
+    # Pick's theroem
+    ans = int(A - len(loop)//2 + 1)
+
+    print(f"Part 2: {ans}")
+    #submit(ans, year, day, 2)
