@@ -25,57 +25,6 @@ def move(from_direction, y, x):
     if from_direction == CardinalDirection.W:
         return (y, x+1)
 
-def get_next_enter_dir(pipe_type, entered):
-
-    if pipe_type == "|":
-        if entered == CardinalDirection.S:
-            return CardinalDirection.S
-        elif entered == CardinalDirection.N:
-            return CardinalDirection.N
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-
-    elif pipe_type == "-":
-        if entered == CardinalDirection.E:
-            return CardinalDirection.E
-        elif entered == CardinalDirection.W:
-            return CardinalDirection.W
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-
-    elif pipe_type == "L":
-        if entered == CardinalDirection.N:
-            return CardinalDirection.W
-        elif entered == CardinalDirection.E:
-            return CardinalDirection.S
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-
-    elif pipe_type == "J":
-        if entered == CardinalDirection.N:
-            return CardinalDirection.E
-        elif entered == CardinalDirection.W:
-            return CardinalDirection.S
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-
-    elif pipe_type == "F":
-        if entered == CardinalDirection.S:
-            return CardinalDirection.W
-        elif entered == CardinalDirection.E:
-            return CardinalDirection.N
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-
-    elif pipe_type == "7":
-        if entered == CardinalDirection.W:
-            return CardinalDirection.N
-        elif entered == CardinalDirection.S:
-            return CardinalDirection.E
-        else:
-            raise ValueError(f"Entering {pipe_type} from {entered} not possible")
-    else:
-        raise ValueError(pipe_type)
 
 if __name__ == "__main__":
     year, day = 2023, 10
@@ -84,25 +33,34 @@ if __name__ == "__main__":
     tiles  = aoc_input.splitlines()
     start_y, start_x = find_start(tiles)
 
-    starting_configs  = [
-        ("F", CardinalDirection.S),
-        ("7", CardinalDirection.W),
-        ("|", CardinalDirection.N),
-        ("J", CardinalDirection.W),
-        ("-", CardinalDirection.E),
-        ("L", CardinalDirection.E),
-    ]
+    # Map the direction entered the pipe to the direction entered from in the next pipe
+    enter_dir_map = {
+        "|": {CardinalDirection.S: CardinalDirection.S, CardinalDirection.N: CardinalDirection.N},
+        "-": {CardinalDirection.E: CardinalDirection.E, CardinalDirection.W: CardinalDirection.W},
+        "L": {CardinalDirection.N: CardinalDirection.W, CardinalDirection.E: CardinalDirection.S},
+        "J": {CardinalDirection.N: CardinalDirection.E, CardinalDirection.W: CardinalDirection.S},
+        "F": {CardinalDirection.S: CardinalDirection.W, CardinalDirection.E: CardinalDirection.N},
+        "7": {CardinalDirection.W: CardinalDirection.N, CardinalDirection.S: CardinalDirection.E},
+    }
+    # Try out each potential shape of the pipe for the starting location and one direction
+    # since a success will be looped no need to check both directions
+    starting_configs  = [(k, list(v.keys())[0]) for k, v in enter_dir_map.items()]
     for pipe_start, enter_dir_start in starting_configs:
         x, y, pipe, enter_dir = start_x, start_y, pipe_start, enter_dir_start
         loop = [(x, y)]
         try:
+            # Traverse the pipe and if at any point the next pipe segment is not connected
+            # to the current pipe, a KeyError will be raised and this is an invalid starting
+            # shape
             while pipe != "S":
-                enter_dir = get_next_enter_dir(pipe, enter_dir)
+                enter_dir = enter_dir_map[pipe][enter_dir]
                 y, x = move(enter_dir, y, x)
                 loop.append((x, y))
                 pipe = tiles[y][x]
-            enter_dir = get_next_enter_dir(pipe_start, enter_dir)
-        except ValueError:
+            # Check that we can actually enter the starting segment pipe after making the
+            # complete loop
+            enter_dir = enter_dir_map[pipe_start][enter_dir]
+        except KeyError:
             continue
         else:
             break
@@ -110,7 +68,7 @@ if __name__ == "__main__":
     ans = len(loop) // 2
 
     print(f"Part 1: {ans}")
-    submit(ans, year, day, 1)
+    #submit(ans, year, day, 1)
 
     # Shoelace formula
     A = abs(sum(x1*y2 - y1*x2 for (x1, y1), (x2, y2)  in pairwise(loop)) / 2)
@@ -119,4 +77,4 @@ if __name__ == "__main__":
     ans = int(A - len(loop)//2 + 1)
 
     print(f"Part 2: {ans}")
-    submit(ans, year, day, 2)
+    #submit(ans, year, day, 2)
