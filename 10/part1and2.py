@@ -78,3 +78,30 @@ if __name__ == "__main__":
 
     print(f"Part 2: {ans}")
     #submit(ans, year, day, 2)
+
+    # Ray-casting
+    c = 0
+    ncols, nrows = len(tiles[0]), len(tiles)
+    for y in range(nrows):
+        tp = bp = 0
+        for x in range(ncols):
+            if (x, y) in loop: 
+                if tiles[y][x] in "|LJ": 
+                    tp += 1
+                if tiles[y][x] in "|F7": 
+                    bp += 1
+            elif bp % 2 == 1 and tp % 2 == 1:
+                tmp = list(tiles[y])
+                tmp[x] = "·"
+                tiles[y] = "".join(tmp)
+                c += 1
+
+    # Printing
+    for y in range(nrows):
+        tiles[y] = tiles[y].replace("7", "┓").replace("F", "┏").replace("J", "┛").replace("L", "┗").replace("|", "┃").replace("-", "━")
+        tmp = list(tiles[y])
+        for x in range(ncols):
+            if (x, y) not in loop and tiles[y][x] != "·":
+                tmp[x] = " "
+            tiles[y] = "".join(tmp)
+        print(tiles[y])
