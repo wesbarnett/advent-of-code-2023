@@ -42,8 +42,17 @@ Can be found using the method [`math.lcm`](https://docs.python.org/3/library/mat
 
 ### Area / number of points in a closed loop
 
-Shoelace Formula - Find area in a closed loop / polygon
-Pick's Theorem - Find number of points within a polygon or number of points on the boundary
+[Shoelace Formula](https://en.wikipedia.org/wiki/Shoelace_formula) - Find area in a closed loop / polygon
+
+```python
+area = abs(sum(x1*y2 - y1*x2 for (x1, y1), (x2, y2) in pairwise(points)) / 2)
+```
+
+[Pick's Theorem](https://en.wikipedia.org/wiki/Pick's_theorem) - Find number of points within a polygon or number of points on the boundary
+
+```python
+area = interior_points + boundary_points/2 - 1
+```
 
 *Day 10*
 
