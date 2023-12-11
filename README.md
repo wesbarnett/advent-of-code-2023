@@ -6,11 +6,13 @@ Note that I use my [aoc-tool](https://github.com/wesbarnett/aoc-tool) to downloa
 
 ## Personal notes
 
+Some concepts / stdlib methods that were new or had been awhile since looking at.
+
 ### Splitting lines
 
 [`str.splitlines()`](https://docs.python.org/3/library/stdtypes.html#str.splitlines) - preferred over `str.split("\n")`. "this method returns an empty list for the empty string, and a terminal line break does not result in an extra line"
 
-*Days 2 onward"
+*Day 2 onward*
 
 ### Overlaps
 
