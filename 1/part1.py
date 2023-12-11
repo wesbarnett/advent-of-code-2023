@@ -4,7 +4,7 @@ if __name__ == "__main__":
     year, day, level = 2023, 1, 1
     aoc_input = get_input(year, day)
 
-    lines = aoc_input.split("\n")
+    lines = aoc_input.splitlines()
 
     result = 0
     for line in lines:
