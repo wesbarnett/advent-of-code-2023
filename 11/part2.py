@@ -8,7 +8,7 @@ def expand_universe(universe, galaxies, fact=1_000_000):
     galaxies_orig = deepcopy(galaxies)
 
     for y, line in enumerate(universe):
-        if all(x == "." for x in line):
+        if "#" not in line:
             for i, g in enumerate(galaxies):
                 if galaxies_orig[i][1] > y:
                     g[1] += (fact-1)
@@ -16,7 +16,7 @@ def expand_universe(universe, galaxies, fact=1_000_000):
     universe = transpose(universe)
 
     for x, line in enumerate(universe):
-        if all(y == "." for y in line):
+        if "#" not in line:
             for i, g in enumerate(galaxies):
                 if galaxies_orig[i][0] > x:
                     g[0] += (fact-1)
@@ -24,8 +24,6 @@ def expand_universe(universe, galaxies, fact=1_000_000):
     return galaxies
 
 def transpose(it):
-    "Swap the rows and columns of the input."
-    # transpose([(1, 2, 3), (11, 22, 33)]) --> (1, 11) (2, 22) (3, 33)
     return zip(*it, strict=True)
 
 def manhattan_dist(a, b):
@@ -44,7 +42,7 @@ if __name__ == "__main__":
             if item == "#":
                 galaxies.append([x, y])
 
-    universe = expand_universe(universe, galaxies)
+    galaxies = expand_universe(universe, galaxies)
 
     ans = sum(manhattan_dist(a, b) for a, b in combinations(galaxies, r=2))
     submit(ans, year, day, level)
