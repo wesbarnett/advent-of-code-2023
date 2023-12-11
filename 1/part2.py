@@ -14,5 +14,5 @@ def get_num(line, reverse=False):
 
 if __name__ == "__main__":
     year, day, level = 2023, 1, 2
-    result = sum(get_num(line)*10 + get_num(line, reverse=True) for line in get_input(year, day).split("\n"))
+    result = sum(get_num(line)*10 + get_num(line, reverse=True) for line in get_input(year, day).splitlines())
     submit(result, year, day, level)
